@@ -111,7 +111,8 @@ class ValueObject():
     pass
 
 class NVR_UV():
-    def __init__(self, i2c, address=0x68):
+    # def __init__(self, i2c, address=0x68):
+    def __init__(self, i2c, address=0x1B):  # 0x37 read / 0x36 write
         self.i2c = i2c
         self.cfg = i2c.prepare(slaveAddress=address, isStopBit=1, isNakBit=1)
 

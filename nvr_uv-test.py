@@ -7,7 +7,8 @@ from IPython import embed
 
 # dll = "c:/app/Cypress/Cypress-USB-Serial/library/lib/cyusbserial.dll"
 # dll = "C:\\Program Files (x86)\\Cypress\\USB-Serial SDK\\library\\cyusbserial\\x64\\cyusbserial.dll"
-dll = "/usr/local/lib/libcyusbserial.so"
+dll = "C:\\Program Files (x86)\\Cypress\\USB-Serial SDK\\library\\cyusbserial\\x86\\cyusbserial.dll"
+# dll = "/usr/local/lib/libcyusbserial.so"
 lib = CyUSBSerial(lib=dll)
 dev = lib.find().next()
 ffi = lib.ffi
