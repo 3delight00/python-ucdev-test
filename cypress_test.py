@@ -1,7 +1,9 @@
 import usb.core, usb.util, usb.control
 import crc16
-vendorId = 0x0665
-productId = 0x5161
+# vendorId = 0x0665
+# productId = 0x5161
+vendorId = 0x04B4
+productId = 0x000A
 interface = 0
 dev = usb.core.find(idVendor=vendorId, idProduct=productId)
 if dev.is_kernel_driver_active(interface):

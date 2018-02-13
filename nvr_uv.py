@@ -1,120 +1,29 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 
-# from bitstring import *
+from bitstring import *
 
-# MPU-6050 registers
-SELF_TEST_X = 13
-SELF_TEST_Y = 14
-SELF_TEST_Z = 15
-SELF_TEST_A = 16
-
-SMPRT_DIV = 25
-CONFIG = 26
-GYRO_CONFIG = 27
-ACCEL_CONFIG = 28
-FIFO_EN = 35
-I2C_MST_CTRL = 36
-
-I2C_SLV0_ADDR = 37
-I2C_SLV0_REG  = 38
-I2C_SLV0_CTRL = 39
-
-I2C_SLV1_ADDR = 40
-I2C_SLV1_REG  = 41
-I2C_SLV1_CTRL = 42
-
-I2C_SLV2_ADDR = 43
-I2C_SLV2_REG  = 44
-I2C_SLV2_CTRL = 45
-
-I2C_SLV3_ADDR = 46
-I2C_SLV3_REG  = 47
-I2C_SLV3_CTRL = 48
-
-I2C_SLV4_ADDR = 49
-I2C_SLV4_REG  = 50
-I2C_SLV4_DO   = 51
-I2C_SLV4_CTRL = 52
-I2C_SLV4_DI   = 53
-
-I2C_MST_STATUS = 54
-
-INT_PIN_CFG = 55
-INT_ENABLE = 56
-INT_STATUS = 58
-
-ACCEL_XOUT_H = 59
-ACCEL_XOUT_L = 60
-ACCEL_YOUT_H = 61
-ACCEL_YOUT_L = 62
-ACCEL_ZOUT_H = 63
-ACCEL_ZOUT_L = 64
-
-TEMP_OUT_H = 65
-TEMP_OUT_L = 66
-
-GYRO_XOUT_H = 67
-GYRO_XOUT_L = 68
-GYRO_YOUT_H = 69
-GYRO_YOUT_L = 70
-GYRO_ZOUT_H = 71
-GYRO_ZOUT_L = 72
-
-EXT_SENS_DATA_00 = 73
-EXT_SENS_DATA_01 = 74
-EXT_SENS_DATA_02 = 75
-EXT_SENS_DATA_03 = 76
-EXT_SENS_DATA_04 = 77
-EXT_SENS_DATA_05 = 78
-
-EXT_SENS_DATA_06 = 79
-EXT_SENS_DATA_07 = 80
-EXT_SENS_DATA_08 = 81
-EXT_SENS_DATA_09 = 82
-EXT_SENS_DATA_10 = 83
-EXT_SENS_DATA_11 = 84
-
-EXT_SENS_DATA_12 = 85
-EXT_SENS_DATA_13 = 86
-EXT_SENS_DATA_14 = 87
-EXT_SENS_DATA_15 = 88
-EXT_SENS_DATA_16 = 89
-EXT_SENS_DATA_17 = 90
-
-EXT_SENS_DATA_18 = 91
-EXT_SENS_DATA_19 = 92
-EXT_SENS_DATA_20 = 93
-EXT_SENS_DATA_21 = 94
-EXT_SENS_DATA_22 = 95
-EXT_SENS_DATA_23 = 96
-
-I2C_SLV0_DO = 99
-I2C_SLV1_DO = 100
-I2C_SLV2_DO = 101
-I2C_SLV3_DO = 102
-
-I2C_MST_DELAY_CTRL = 103
-SIGNAL_PATH_RESET = 104
-USER_CTRL = 106
-
-PWR_MGMT_1 = 107
-PWR_MGMT_2 = 108
-
-FIFO_COUNT_H = 114
-FIFO_COUNT_L = 115
-FIFO_R_W = 116
-
-WHO_AM_I = 117
+# Young Optics CY7C65215 I2C value
+I2C_SLV_ADDR = 0x1B
+LED_CURRENT_CMD = 0x54
+LED_ENABLE_CMD = 0x52
+LED_ENABLE_CTRL = 0x02
+LED_DISABLE_CTRL = 0x00
+SOURCE_SEL_CMD = 0x05
+PATTERN_SEL_CMD = 0x0B
+HDMI_SEL_DATA = 0x00
+PATTERN_SEL_DATA = 0x01
 
 class ValueObject():
     pass
 
-class NVR_UV():
+class NV_UV():
     # def __init__(self, i2c, address=0x68):
     def __init__(self, i2c, address=0x1B):  # 0x37 read / 0x36 write
+    # def __init__(self, i2c, address=0x39):
         self.i2c = i2c
-        self.cfg = i2c.prepare(slaveAddress=address, isStopBit=1, isNakBit=1)
+        # self.cfg = i2c.prepare(slaveAddress=address, isStopBit=1, isNakBit=1)
+        self.cfg = i2c.prepare(slaveAddress=address, isStopBit=1, isNakBit=0)
 
     def read(self, len=1):
         buf = "\x00" * len
@@ -130,3 +39,113 @@ class NVR_UV():
     def set_reg(self, reg, val):
         return self.write(pack('<BB', reg, val).bytes)
 
+    #=============================================== add local
+
+    def led_on(self, val):
+        if val == 1:
+            ch_data = pack('<BB', LED_ENABLE_CMD, LED_ENABLE_CTRL).bytes
+        else:
+            ch_data = pack('<BB', LED_ENABLE_CMD, LED_DISABLE_CTRL).bytes
+        return self.i2c.write(self.cfg, ch_data)
+
+    def divide_hex(self, val):
+        return divmod(val, 0x100)
+
+    def led_cur(self, val):
+        try:
+            high, low = self.divide_hex(val)
+            # high_hex = format(high, '02x')
+            # low_hex = format(low, '02x')
+            msb_high = hex(high)
+            lsb_low = hex(low)
+        except Exception, e:
+            print e
+            raise
+
+        # 00 00 21 02 00 00
+        try:
+            # test_data = pack('<BBBBBBB', LED_CURRENT_CMD, 0x0, 0x0, 0x21, 0x2, 0x0, 0x0).bytes
+            ch_data = pack('<BBBBBBB', LED_CURRENT_CMD, 0x0, 0x0, low, high, 0x0, 0x0).bytes
+        except Exception, e:
+            raise
+        # print ch_data
+
+        return self.i2c.write(self.cfg, ch_data)
+
+    def test_pattern(self, val):
+        if val == 1:    # ramp
+            source_data = pack('<BB', SOURCE_SEL_CMD, 0x01).bytes
+            self.i2c.write(self.cfg, source_data)
+            ch_data = pack('<BBBBBBB', PATTERN_SEL_CMD, 0x01, 0x70, 0x00, 0xFF, 0x00, 0x00).bytes
+            return self.i2c.write(self.cfg, ch_data)
+        elif val == 2:  # checker
+            source_data = pack('<BB', SOURCE_SEL_CMD, 0x01).bytes
+            self.i2c.write(self.cfg, source_data)
+            ch_data = pack('<BBBBBBB', PATTERN_SEL_CMD, 0x07, 0x70, 0x04, 0x00, 0x04, 0x00).bytes
+            return self.i2c.write(self.cfg, ch_data)
+        else:   # 0 hdmi
+            source_data = pack('<BB', SOURCE_SEL_CMD, 0x00).bytes
+            return self.i2c.write(self.cfg, source_data)
+
+    def start_temp_1(self):
+        source_data1 = pack('<B', 0xD6).bytes
+        # source_data0 = pack('<B', 0xAC).bytes
+        # source_data1 = pack('<BB', 0xD6, 0x03).bytes
+        self.i2c.write(self.cfg, source_data1)
+        # self.i2c.write(self.cfg, source_data0)
+        aaa = self.read(2)
+        return aaa
+        # source_data2 = pack('<BB', 0xA0, 0x00).bytes
+        # self.i2c.write(self.cfg, source_data2)
+
+    def start_temp_2(self):
+        # source_data1 = pack('<BB', 0xA0, 0x03).bytes
+        # source_data0 = pack('<B', 0xAC).bytes
+        # # source_data1 = pack('<BB', 0xD6, 0x03).bytes
+        # self.i2c.write(self.cfg, source_data1)
+        # self.i2c.write(self.cfg, source_data0)
+        # aaa = self.read(2)
+        source_data2 = pack('<BB', 0xA0, 0x00).bytes
+        self.i2c.write(self.cfg, source_data2)
+
+    def get_light(self):
+        # source_data0 = pack('<BB', 0xA0, 0x03).bytes
+        # self.i2c.write(self.cfg, source_data0)
+        source_data1 = pack('<B', 0xAC).bytes
+        self.i2c.write(self.cfg, source_data1)
+        # aaa = self.read(2)
+        # return aaa
+        # source_data2 = pack('<BB', 0xA0, 0x00).bytes
+        # self.i2c.write(self.cfg, source_data2)
+
+
+class NV_Read():
+    # def __init__(self, i2c, address=0x68):
+    # def __init__(self, i2c, address=0x1B):  # 0x37 read / 0x36 write
+    def __init__(self, i2c, address=0x39):  # 0x73 read
+        self.i2c2 = i2c
+        # self.cfg = i2c.prepare(slaveAddress=address, isStopBit=1, isNakBit=1)
+        self.cfg2 = i2c.prepare(slaveAddress=address, isStopBit=1, isNakBit=0)
+
+    def read(self, len=1):
+        buf = "\x00" * len
+        return self.i2c2.read(self.cfg2, buf)
+
+    def write(self, data):
+        return self.i2c2.write(self.cfg2, data)
+
+    def get_reg(self, reg, len=1):
+        self.write(pack('<B', reg).bytes)
+        return self.read(len)
+
+    def set_reg(self, reg, val):
+        return self.write(pack('<BB', reg, val).bytes)
+
+    def get_temp(self):
+        # aaa = self.read(1)
+        bbb = self.read(2)
+        return bbb
+
+    def get_light(self):
+        source_data1 = pack('<B', 0xAC).bytes
+        self.i2c2.write(self.cfg2, source_data1)

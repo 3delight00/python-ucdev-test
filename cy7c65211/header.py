@@ -6,11 +6,11 @@ src = """
 #define CY_US_VERSION_PATCH 0
 #define CY_US_VERSION 1
 #define CY_US_VERSION_BUILD 74
-    typedef unsigned int UINT32;
-    typedef unsigned char UINT8;
-    typedef unsigned short UINT16;
-    typedef char CHAR;
-    typedef unsigned char UCHAR;
+typedef unsigned int UINT32;
+typedef unsigned char UINT8;
+typedef unsigned short UINT16;
+typedef char CHAR;
+typedef unsigned char UCHAR;
 typedef void* CY_HANDLE;
 typedef void (*CY_EVENT_NOTIFICATION_CB_FN)(UINT16 eventsNotified);
 typedef struct _CY_VID_PID {
@@ -176,181 +176,181 @@ typedef enum _CY_CALLBACK_EVENTS {
     CY_SPI_BUS_ERROR_BIT = 0x400,
     CY_ERROR_EVENT_FAILED_BIT = 0x800
 } CY_CALLBACK_EVENTS;
- CY_RETURN_STATUS CyLibraryInit ();
- CY_RETURN_STATUS CyLibraryExit ();
- CY_RETURN_STATUS CyGetListofDevices (
+CY_RETURN_STATUS CyLibraryInit ();
+CY_RETURN_STATUS CyLibraryExit ();
+CY_RETURN_STATUS CyGetListofDevices (
     UINT8* numDevices
-    );
- CY_RETURN_STATUS CyGetDeviceInfo(
+);
+CY_RETURN_STATUS CyGetDeviceInfo(
     UINT8 deviceNumber,
     CY_DEVICE_INFO *deviceInfo
-    );
- CY_RETURN_STATUS CyGetDeviceInfoVidPid (
+);
+CY_RETURN_STATUS CyGetDeviceInfoVidPid (
     CY_VID_PID vidPid,
     UINT8 *deviceIdList,
     CY_DEVICE_INFO *deviceInfoList,
     UINT8 *deviceCount,
     UINT8 infoListLength
-    );
- CY_RETURN_STATUS CyOpen (
+);
+CY_RETURN_STATUS CyOpen (
     UINT8 deviceNumber,
     UINT8 interfaceNum,
     CY_HANDLE *handle
-    );
- CY_RETURN_STATUS CyClose (
+);
+CY_RETURN_STATUS CyClose (
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyCyclePort (
+);
+CY_RETURN_STATUS CyCyclePort (
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CySetGpioValue (
+);
+CY_RETURN_STATUS CySetGpioValue (
     CY_HANDLE handle,
     UINT8 gpioNumber,
     UINT8 value
-    );
- CY_RETURN_STATUS CyGetGpioValue (
+);
+CY_RETURN_STATUS CyGetGpioValue (
     CY_HANDLE handle,
     UINT8 gpioNumber,
     UINT8 *value
-    );
- CY_RETURN_STATUS CySetEventNotification(
+);
+CY_RETURN_STATUS CySetEventNotification(
     CY_HANDLE handle,
     CY_EVENT_NOTIFICATION_CB_FN notificationCbFn
-    );
- CY_RETURN_STATUS CyAbortEventNotification(
+);
+CY_RETURN_STATUS CyAbortEventNotification(
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyGetLibraryVersion (
+);
+CY_RETURN_STATUS CyGetLibraryVersion (
     CY_HANDLE handle,
     PCY_LIBRARY_VERSION version
-    );
- CY_RETURN_STATUS CyGetFirmwareVersion (
+);
+CY_RETURN_STATUS CyGetFirmwareVersion (
     CY_HANDLE handle,
     PCY_FIRMWARE_VERSION firmwareVersion
-    );
- CY_RETURN_STATUS CyResetDevice (
+);
+CY_RETURN_STATUS CyResetDevice (
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyProgUserFlash (
+);
+CY_RETURN_STATUS CyProgUserFlash (
     CY_HANDLE handle,
     CY_DATA_BUFFER *progBuffer,
     UINT32 flashAddress,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyReadUserFlash (
+);
+CY_RETURN_STATUS CyReadUserFlash (
     CY_HANDLE handle,
     CY_DATA_BUFFER *readBuffer,
     UINT32 flashAddress,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyGetSignature (
+);
+CY_RETURN_STATUS CyGetSignature (
     CY_HANDLE handle,
     UCHAR *pSignature
-    );
- CY_RETURN_STATUS CyGetUartConfig (
+);
+CY_RETURN_STATUS CyGetUartConfig (
     CY_HANDLE handle,
     CY_UART_CONFIG *uartConfig
-    );
- CY_RETURN_STATUS CySetUartConfig (
+);
+CY_RETURN_STATUS CySetUartConfig (
     CY_HANDLE handle,
     CY_UART_CONFIG *uartConfig
-    );
- CY_RETURN_STATUS CyUartRead (
+);
+CY_RETURN_STATUS CyUartRead (
     CY_HANDLE handle,
     CY_DATA_BUFFER* readBuffer,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyUartWrite (
+);
+CY_RETURN_STATUS CyUartWrite (
     CY_HANDLE handle,
     CY_DATA_BUFFER* writeBuffer,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyUartSetHwFlowControl(
+);
+CY_RETURN_STATUS CyUartSetHwFlowControl(
     CY_HANDLE handle,
     CY_FLOW_CONTROL_MODES mode
-    );
- CY_RETURN_STATUS CyUartGetHwFlowControl(
+);
+CY_RETURN_STATUS CyUartGetHwFlowControl(
     CY_HANDLE handle,
     CY_FLOW_CONTROL_MODES *mode
-    );
- CY_RETURN_STATUS CyUartSetRts(
+);
+CY_RETURN_STATUS CyUartSetRts(
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyUartClearRts(
+);
+CY_RETURN_STATUS CyUartClearRts(
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyUartSetDtr(
+);
+CY_RETURN_STATUS CyUartSetDtr(
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyUartClearDtr(
+);
+CY_RETURN_STATUS CyUartClearDtr(
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyUartSetBreak(
+);
+CY_RETURN_STATUS CyUartSetBreak(
     CY_HANDLE handle,
     UINT16 timeout
-    );
- CY_RETURN_STATUS CyGetI2cConfig (
+);
+CY_RETURN_STATUS CyGetI2cConfig (
     CY_HANDLE handle,
     CY_I2C_CONFIG *i2cConfig
-    );
- CY_RETURN_STATUS CySetI2cConfig (
+);
+CY_RETURN_STATUS CySetI2cConfig (
     CY_HANDLE handle,
     CY_I2C_CONFIG *i2cConfig
-    );
- CY_RETURN_STATUS CyI2cRead (
+);
+CY_RETURN_STATUS CyI2cRead (
     CY_HANDLE handle,
     CY_I2C_DATA_CONFIG *dataConfig,
     CY_DATA_BUFFER *readBuffer,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyI2cWrite (
+);
+CY_RETURN_STATUS CyI2cWrite (
     CY_HANDLE handle,
     CY_I2C_DATA_CONFIG *dataConfig,
     CY_DATA_BUFFER *writeBuffer,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyI2cReset(
-                                        CY_HANDLE handle,
-                                        BOOL resetMode
-                                        );
- CY_RETURN_STATUS CyGetSpiConfig (
+);
+CY_RETURN_STATUS CyI2cReset(
+    CY_HANDLE handle,
+    BOOL resetMode
+);
+CY_RETURN_STATUS CyGetSpiConfig (
     CY_HANDLE handle,
     CY_SPI_CONFIG *spiConfig
-    );
- CY_RETURN_STATUS CySetSpiConfig (
+);
+CY_RETURN_STATUS CySetSpiConfig (
     CY_HANDLE handle,
     CY_SPI_CONFIG *spiConfig
-    );
- CY_RETURN_STATUS CySpiReadWrite (
+);
+CY_RETURN_STATUS CySpiReadWrite (
     CY_HANDLE handle,
     CY_DATA_BUFFER* readBuffer,
     CY_DATA_BUFFER* writeBuffer,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyJtagEnable (
+);
+CY_RETURN_STATUS CyJtagEnable (
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyJtagDisable (
+);
+CY_RETURN_STATUS CyJtagDisable (
     CY_HANDLE handle
-    );
- CY_RETURN_STATUS CyJtagWrite (
+);
+CY_RETURN_STATUS CyJtagWrite (
     CY_HANDLE handle,
     CY_DATA_BUFFER *writeBuffer,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyJtagRead (
+);
+CY_RETURN_STATUS CyJtagRead (
     CY_HANDLE handle,
     CY_DATA_BUFFER *readBuffer,
     UINT32 timeout
-    );
- CY_RETURN_STATUS CyPhdcClrFeature (
-        CY_HANDLE handle
-        );
- CY_RETURN_STATUS CyPhdcSetFeature (
-        CY_HANDLE handle
-        );
- CY_RETURN_STATUS CyPhdcGetStatus (
-        CY_HANDLE handle,
-        UINT16 *dataStatus
-        );
+);
+CY_RETURN_STATUS CyPhdcClrFeature (
+    CY_HANDLE handle
+);
+CY_RETURN_STATUS CyPhdcSetFeature (
+    CY_HANDLE handle
+);
+CY_RETURN_STATUS CyPhdcGetStatus (
+    CY_HANDLE handle,
+    UINT16 *dataStatus
+);
 """

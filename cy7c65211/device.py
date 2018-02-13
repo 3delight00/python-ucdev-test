@@ -42,6 +42,9 @@ class CyUSBSerial(object):
 
         info = ffi.new("CY_DEVICE_INFO *")
 
+        if nr[0] < 1:
+            raise ValueError('Device not found')
+
         for devno in range(0, nr[0]):
             rc = api.CyGetDeviceInfo(devno, info)
 
@@ -203,8 +206,13 @@ class CyI2C(SPI):
         ffi = dev.lib.ffi
         api = dev.lib.api
 
-        wlen = len(data)
-        wbuf = ffi.new("UCHAR[%d]" % wlen, str(data))
+        try:
+            wlen = len(data)
+            wbuf = ffi.new("UCHAR[%d]" % wlen, str(data))
+        except Exception, e:
+            print e
+            raise
+
         wcdb = ffi.new("CY_DATA_BUFFER *", (wbuf, wlen, 0))
 
         rc = dev.CyI2cWrite(cfg, wcdb, timeout)
