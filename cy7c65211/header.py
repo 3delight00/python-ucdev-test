@@ -93,14 +93,14 @@ typedef enum _CY_RETURN_STATUS{
 typedef struct _CY_I2C_CONFIG{
     UINT32 frequency;
     UINT8 slaveAddress;
-    BOOL isMaster;
-    BOOL isClockStretch;
+    bool isMaster;
+    bool isClockStretch;
 } CY_I2C_CONFIG,*PCY_I2C_CONFIG;
 typedef struct _CY_I2C_DATA_CONFIG
 {
     UCHAR slaveAddress;
-    BOOL isStopBit;
-    BOOL isNakBit;
+    bool isStopBit;
+    bool isNakBit;
 } CY_I2C_DATA_CONFIG, *PCY_I2C_DATA_CONFIG;
 typedef enum _CY_SPI_PROTOCOL {
     CY_SPI_MOTOROLA = 0,
@@ -112,12 +112,12 @@ typedef struct _CY_SPI_CONFIG
     UINT32 frequency;
     UCHAR dataWidth;
     CY_SPI_PROTOCOL protocol ;
-    BOOL isMsbFirst;
-    BOOL isMaster;
-    BOOL isContinuousMode;
-    BOOL isSelectPrecede;
-    BOOL isCpha;
-    BOOL isCpol;
+    bool isMsbFirst;
+    bool isMaster;
+    bool isContinuousMode;
+    bool isSelectPrecede;
+    bool isCpha;
+    bool isCpol;
 }CY_SPI_CONFIG,*PCY_SPI_CONFIG;
 typedef enum _CY_UART_BAUD_RATE
 {
@@ -161,7 +161,7 @@ typedef struct _CY_UART_CONFIG {
     UINT8 dataWidth;
     CY_UART_STOP_BIT stopBits;
     CY_UART_PARITY_MODE parityMode;
-    BOOL isDropOnRxErrors;
+    bool isDropOnRxErrors;
 } CY_UART_CONFIG,*PCY_UART_CONFIG;
 typedef enum _CY_CALLBACK_EVENTS {
     CY_UART_CTS_BIT = 0x01,
@@ -311,7 +311,7 @@ CY_RETURN_STATUS CyI2cWrite (
 );
 CY_RETURN_STATUS CyI2cReset(
     CY_HANDLE handle,
-    BOOL resetMode
+    bool resetMode
 );
 CY_RETURN_STATUS CyGetSpiConfig (
     CY_HANDLE handle,
