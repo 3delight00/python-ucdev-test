@@ -32,7 +32,7 @@ nv = NV_UV(i2c)
 # nv.get_light()
 # nv.read(2)
 
-nv2 = NV_Read(i2c)
+# nv2 = NV_Read(i2c)
 # nv_read.get_light()
 # nv_read.read(2)
 
