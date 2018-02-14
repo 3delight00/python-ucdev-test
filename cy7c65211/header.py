@@ -6,7 +6,7 @@ src = """
 #define CY_US_VERSION_PATCH 0
 #define CY_US_VERSION 1
 #define CY_US_VERSION_BUILD 74
-typedef unsigned int UINT32;
+typedef unsigned int uint32_t;
 typedef unsigned char UINT8;
 typedef unsigned short UINT16;
 typedef char CHAR;
@@ -27,7 +27,7 @@ typedef struct _CY_FIRMWARE_VERSION {
     UINT8 majorVersion;
     UINT8 minorVersion;
     UINT16 patchNumber;
-    UINT32 buildNumber;
+    uint32_t buildNumber;
 } CY_FIRMWARE_VERSION, *PCY_FIRMWARE_VERSION;
 typedef enum _CY_DEVICE_CLASS{
     CY_CLASS_DISABLED = 0,
@@ -62,8 +62,8 @@ typedef struct _CY_DEVICE_INFO {
 } CY_DEVICE_INFO,*PCY_DEVICE_INFO;
 typedef struct _CY_DATA_BUFFER {
     UCHAR *buffer;
-    UINT32 length;
-    UINT32 transferCount;
+    uint32_t length;
+    uint32_t transferCount;
 } CY_DATA_BUFFER,*PCY_DATA_BUFFER;
 typedef enum _CY_RETURN_STATUS{
     CY_SUCCESS = 0,
@@ -91,7 +91,7 @@ typedef enum _CY_RETURN_STATUS{
     CY_ERROR_STATUS_MONITOR_EXIST
 } CY_RETURN_STATUS;
 typedef struct _CY_I2C_CONFIG{
-    UINT32 frequency;
+    uint32_t frequency;
     UINT8 slaveAddress;
     bool isMaster;
     bool isClockStretch;
@@ -109,7 +109,7 @@ typedef enum _CY_SPI_PROTOCOL {
 } CY_SPI_PROTOCOL;
 typedef struct _CY_SPI_CONFIG
 {
-    UINT32 frequency;
+    uint32_t frequency;
     UCHAR dataWidth;
     CY_SPI_PROTOCOL protocol ;
     bool isMsbFirst;
@@ -234,14 +234,14 @@ CY_RETURN_STATUS CyResetDevice (
 CY_RETURN_STATUS CyProgUserFlash (
     CY_HANDLE handle,
     CY_DATA_BUFFER *progBuffer,
-    UINT32 flashAddress,
-    UINT32 timeout
+    uint32_t flashAddress,
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyReadUserFlash (
     CY_HANDLE handle,
     CY_DATA_BUFFER *readBuffer,
-    UINT32 flashAddress,
-    UINT32 timeout
+    uint32_t flashAddress,
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyGetSignature (
     CY_HANDLE handle,
@@ -258,12 +258,12 @@ CY_RETURN_STATUS CySetUartConfig (
 CY_RETURN_STATUS CyUartRead (
     CY_HANDLE handle,
     CY_DATA_BUFFER* readBuffer,
-    UINT32 timeout
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyUartWrite (
     CY_HANDLE handle,
     CY_DATA_BUFFER* writeBuffer,
-    UINT32 timeout
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyUartSetHwFlowControl(
     CY_HANDLE handle,
@@ -301,13 +301,13 @@ CY_RETURN_STATUS CyI2cRead (
     CY_HANDLE handle,
     CY_I2C_DATA_CONFIG *dataConfig,
     CY_DATA_BUFFER *readBuffer,
-    UINT32 timeout
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyI2cWrite (
     CY_HANDLE handle,
     CY_I2C_DATA_CONFIG *dataConfig,
     CY_DATA_BUFFER *writeBuffer,
-    UINT32 timeout
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyI2cReset(
     CY_HANDLE handle,
@@ -325,7 +325,7 @@ CY_RETURN_STATUS CySpiReadWrite (
     CY_HANDLE handle,
     CY_DATA_BUFFER* readBuffer,
     CY_DATA_BUFFER* writeBuffer,
-    UINT32 timeout
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyJtagEnable (
     CY_HANDLE handle
@@ -336,12 +336,12 @@ CY_RETURN_STATUS CyJtagDisable (
 CY_RETURN_STATUS CyJtagWrite (
     CY_HANDLE handle,
     CY_DATA_BUFFER *writeBuffer,
-    UINT32 timeout
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyJtagRead (
     CY_HANDLE handle,
     CY_DATA_BUFFER *readBuffer,
-    UINT32 timeout
+    uint32_t timeout
 );
 CY_RETURN_STATUS CyPhdcClrFeature (
     CY_HANDLE handle
