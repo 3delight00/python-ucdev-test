@@ -18,9 +18,7 @@ class ValueObject():
     pass
 
 class NV_UV():
-    # def __init__(self, i2c, address=0x68):
     def __init__(self, i2c, address=0x1B):  # 0x37 read / 0x36 write
-    # def __init__(self, i2c, address=0x39):
         self.i2c = i2c
         # self.cfg = i2c.prepare(slaveAddress=address, isStopBit=1, isNakBit=1)
         self.cfg = i2c.prepare(slaveAddress=address, isStopBit=1, isNakBit=0)
@@ -39,7 +37,7 @@ class NV_UV():
     def set_reg(self, reg, val):
         return self.write(pack('<BB', reg, val).bytes)
 
-    #=============================================== add local
+    # =============================================== add local
 
     def led_on(self, val):
         if val == 1:
@@ -89,24 +87,12 @@ class NV_UV():
 
     def start_temp_1(self):
         source_data1 = pack('<B', 0xD6).bytes
-        # source_data0 = pack('<B', 0xAC).bytes
-        # source_data1 = pack('<BB', 0xD6, 0x03).bytes
         self.i2c.write(self.cfg, source_data1)
-        # self.i2c.write(self.cfg, source_data0)
-        aaa = self.read(2)
-        return aaa
-        # source_data2 = pack('<BB', 0xA0, 0x00).bytes
-        # self.i2c.write(self.cfg, source_data2)
-
-    def start_temp_2(self):
-        # source_data1 = pack('<BB', 0xA0, 0x03).bytes
-        # source_data0 = pack('<B', 0xAC).bytes
-        # # source_data1 = pack('<BB', 0xD6, 0x03).bytes
-        # self.i2c.write(self.cfg, source_data1)
-        # self.i2c.write(self.cfg, source_data0)
-        # aaa = self.read(2)
-        source_data2 = pack('<BB', 0xA0, 0x00).bytes
-        self.i2c.write(self.cfg, source_data2)
+        try:
+            rc = self.read(2)
+        except Exception, e:
+            raise
+        return rc
 
     def get_light(self):
         # source_data0 = pack('<BB', 0xA0, 0x03).bytes
